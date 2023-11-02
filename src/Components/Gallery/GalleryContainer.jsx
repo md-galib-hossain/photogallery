@@ -10,7 +10,11 @@ import image9 from "./../../../../images/image-9.webp";
 import image10 from "./../../../../images/image-10.jpeg";
 import image11 from "./../../../../images/image-11.jpeg";
 import { useState } from "react";
+import SingleImage from "./SingleImage";
 const GalleryContainer = () => {
+  const [selectedImages, setSelectedImages] = useState([]);
+  // I took help from chat gpt for unselecting the indexes after delete operation
+  const [checkedState, setCheckedState] = useState(new Array(11).fill(false)); // Adjust the array length based on your number of images
   const [draggedImage, setDraggedImage] = useState(null);
   const [galleryImages, setGalleryImages] = useState([
     image1,
@@ -25,39 +29,77 @@ const GalleryContainer = () => {
     image10,
     image11,
   ]);
-  // function for getting the image index i am dragging
+
+  // function for getting the image index I am dragging
   const handleDragStart = (index) => {
     setDraggedImage(index);
   };
-  // function for where i am putting the image
+
+  // function for where I am putting the image
   const handleDragOver = (index, e) => {
     e.preventDefault();
   };
-  // this is where i am dropping and swapping , I took help from chatgpt for this function
+
+  // this is where I am dropping and swapping
   const handleDrop = (index) => {
     if (draggedImage !== null && draggedImage !== index) {
       setGalleryImages((prevImages) => {
         const newGalleryImages = [...prevImages];
-        [newGalleryImages[draggedImage], newGalleryImages[index]] = [
-          newGalleryImages[index],
-          newGalleryImages[draggedImage],
-        ];
+        const [draggedItem] = newGalleryImages.splice(draggedImage, 1);
+        newGalleryImages.splice(index, 0, draggedItem);
         return newGalleryImages;
       });
     }
 
     setDraggedImage(null);
+    setSelectedImages([]);
   };
+
+  // for selecting multiple images
+  const handleImageSelect = (index) => {
+    setCheckedState((prevState) => {
+      const newState = [...prevState];
+      newState[index] = !newState[index];
+      return newState;
+    });
+
+    setSelectedImages((prevSelected) => {
+      if (prevSelected.includes(index)) {
+        return prevSelected.filter((item) => item !== index);
+      } else {
+        return [...prevSelected, index];
+      }
+    });
+  };
+
+  const handleDeleteSelected = () => {
+    setGalleryImages((prevImages) => {
+      const newGalleryImages = prevImages.filter(
+        (image, index) => !selectedImages.includes(index)
+      );
+      setCheckedState((prevState) => {
+        const newState = [...prevState];
+        selectedImages.forEach((index) => {
+          newState[index] = false;
+        });
+        return newState;
+      });
+      setSelectedImages([]); // Clear selected images after deletion
+      return newGalleryImages;
+    });
+  };
+
   return (
     <>
       {/* Heading Section start */}
 
       <div className="flex mb-1 bg-white justify-between p-4">
         <div>
-          <h3>Gallery</h3>
+        {selectedImages.length > 0 ? <h3>Selected : {selectedImages.length}</h3> : <h3>Gallery</h3> }
+        
         </div>
         <div>
-          <button>Delete files</button>
+          <button onClick={handleDeleteSelected}>Delete files</button>
         </div>
       </div>
       {/* Heading Section end */}
@@ -65,23 +107,9 @@ const GalleryContainer = () => {
       <div className="bg-white md:min-h-[500px] p-8">
         {/* Grid section start */}
         <div className="grid md:grid-cols-5 gap-4">
-          {galleryImages?.map((image, index) => (
-            <div
-              key={index}
-              className={`min-h-[60px] min-w-[60px] ${
-                index == 0 && "col-span-2 row-span-2"
-              } rounded border-2`}
-              onDragOver={(e) => handleDragOver(index, e)}
-              onDrop={() => handleDrop(index)}
-              draggable
-              onDragStart={() => handleDragStart(index)}
-            >
-              <span>{index}</span>
-              <img src={image} alt="" />
-            </div>
-          ))}
-        </div>
+          {galleryImages?.map((image, index) => <SingleImage key={index} index={index} image={image} handleImageSelect={handleImageSelect} checkedState = {checkedState} handleDragStart ={handleDragStart} handleDrop = {handleDrop} handleDragOver ={handleDragOver}/>)}
         {/* Grid section end */}
+        </div>
       </div>
     </>
   );
