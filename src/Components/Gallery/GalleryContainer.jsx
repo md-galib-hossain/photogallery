@@ -14,7 +14,7 @@ import SingleImage from "./SingleImage";
 const GalleryContainer = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   // I took help from chat gpt for unselecting the indexes after delete operation
-  const [checkedState, setCheckedState] = useState(new Array(11).fill(false)); // Adjust the array length based on your number of images
+  const [checkedState, setCheckedState] = useState(new Array(11).fill(false)); // Adjust the array length based number of images
   const [draggedImage, setDraggedImage] = useState(null);
   const [galleryImages, setGalleryImages] = useState([
     image1,
@@ -52,7 +52,7 @@ const GalleryContainer = () => {
     }
 
     setDraggedImage(null);
-    setSelectedImages([]);
+    setCheckedState(!checkedState);
   };
 
   // for selecting multiple images
@@ -72,6 +72,10 @@ const GalleryContainer = () => {
     });
   };
 
+  const handleUnselectAll = () => {
+    setSelectedImages([]);
+    setCheckedState(new Array(galleryImages.length).fill(false));
+  };
   const handleDeleteSelected = () => {
     setGalleryImages((prevImages) => {
       const newGalleryImages = prevImages.filter(
@@ -91,27 +95,58 @@ const GalleryContainer = () => {
 
   return (
     <>
-      {/* Heading Section start */}
-
-      <div className="flex mb-1 bg-white justify-between p-4">
-        <div>
-        {selectedImages.length > 0 ? <h3>Selected : {selectedImages.length}</h3> : <h3>Gallery</h3> }
-        
-        </div>
-        <div>
-          <button onClick={handleDeleteSelected}>Delete files</button>
-        </div>
+    {/* Heading Section start */}
+    <div className="flex mb-1 bg-white justify-between p-4">
+      <div>
+        {selectedImages.length > 0 ? (
+          <div className="flex">
+            <label>
+              <input
+                onClick={handleUnselectAll}
+                type="checkbox"
+                checked={checkedState.some((value) => value)}
+              />
+            </label>
+            <h3 className="font-bold ms-2">
+              {selectedImages.length > 1
+                ? ` ${selectedImages.length} files selected`
+                : `${selectedImages.length} file selected`}
+            </h3>
+          </div>
+        ) : (
+          <h3 className="font-bold">Gallery</h3>
+        )}
       </div>
-      {/* Heading Section end */}
-
-      <div className="bg-white md:min-h-[500px] p-8">
-        {/* Grid section start */}
-        <div className="grid md:grid-cols-5 gap-4">
-          {galleryImages?.map((image, index) => <SingleImage key={index} index={index} image={image} handleImageSelect={handleImageSelect} checkedState = {checkedState} handleDragStart ={handleDragStart} handleDrop = {handleDrop} handleDragOver ={handleDragOver}/>)}
-        {/* Grid section end */}
-        </div>
+      <div>
+        <button
+          className="text-red-600 font-bold"
+          onClick={handleDeleteSelected}
+        >
+          Delete files
+        </button>
       </div>
-    </>
+    </div>
+    {/* Heading Section end */}
+
+    <div className="bg-white md:min-h-[500px] p-8">
+      {/* Grid section start */}
+      <div className="grid md:grid-cols-5 gap-4">
+        {galleryImages?.map((image, index) => (
+          <SingleImage
+            key={index}
+            index={index}
+            image={image}
+            handleImageSelect={handleImageSelect}
+            checkedState={checkedState}
+            handleDragStart={handleDragStart}
+            handleDrop={handleDrop}
+            handleDragOver={handleDragOver}
+          />
+        ))}
+      </div>
+      {/* Grid section end */}
+    </div>
+  </>
   );
 };
 

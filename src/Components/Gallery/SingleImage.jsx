@@ -1,6 +1,7 @@
 import "./index.css"
 const SingleImage = ({index,image,handleImageSelect,checkedState, handleDragStart,handleDrop,handleDragOver}) => {
-    return (
+  console.log(checkedState, "hah")  
+  return (
       <div   key={index}
       className={`min-h-[60px] min-w-[60px] ${
         index === 0 && "col-span-2 row-span-2"
@@ -13,14 +14,12 @@ const SingleImage = ({index,image,handleImageSelect,checkedState, handleDragStar
     <div className="div_overlay"
 >
               {/* checkbox start */}
-              <lable className="checkbox_label"
-              >
+              <lable className={`checkbox_label ${ checkedState[index] === true ? "block" : "hidden"} `} >
               <input
                 type="checkbox"
-                
                 checked={checkedState[index]}
                 onClick={() => handleImageSelect(index)}
-                style={{ position: "absolute", margin: "8px" }}
+                style={{ position: "absolute", margin: "8px", }}
               ></input>
               </lable>
               <img src={image} alt="" />
@@ -31,3 +30,5 @@ const SingleImage = ({index,image,handleImageSelect,checkedState, handleDragStar
 }
 
 export default SingleImage
+
+

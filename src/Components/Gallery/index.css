@@ -4,15 +4,14 @@
     position: relative;
 
 }
-.div_overlay .checkbox_label{
-    display: none;
 
-}
+
 .div_overlay:hover .checkbox_label{
     display: block;
     z-index: 90;
 
 }
+
 .main_img_container:hover .div_overlay::after{
     content: '';
     position: absolute;
@@ -25,3 +24,43 @@
     z-index: 10;
 }
 
+
+/* Update your CSS for the grid items */
+/* .grid-item {
+  }
+  
+  .col-span-2 {
+    grid-column: span 2;
+  }
+  
+  .row-span-2 {
+    grid-row: span 2;
+  }
+  
+  .div_overlay {
+    position: relative;
+  }
+  
+  .checkbox_label {
+    display: block;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 20; 
+  }
+  
+  .div_overlay:hover .checkbox_label {
+    display: block;
+  }
+  
+  .main_img_container:hover .div_overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.48);
+    text-align: left;
+    z-index: 10;
+  } */
