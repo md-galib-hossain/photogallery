@@ -1,8 +1,6 @@
-.checkbox_label{
-
+/* .checkbox_label{
     display: block;
     position: relative;
-
 }
 
 
@@ -22,7 +20,47 @@
     background: rgba(0, 0, 0, 0.48);
     text-align: left;
     z-index: 10;
-}
+} */
+
+.main_img_container {
+    position: relative;
+    z-index: 2; /* Adjust as needed */
+  }
+  
+  .checkbox_label {
+    display: none; /* Initially hidden */
+    position: absolute;
+    top: 8px; /* Adjust as needed */
+    left: 8px; /* Adjust as needed */
+    z-index: 60; /* Above the drag-and-drop overlay */
+  }
+  
+  .div_overlay:hover .checkbox_label {
+    display: block;
+   
+  }
+  
+  .div_overlay:hover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.48);
+    text-align: left;
+    z-index: 8; /* Below the checkbox and drag-and-drop overlay */
+  }
+  .listeners_overlay {
+    position: absolute;
+    z-index: 50; /* Adjust as needed, make it higher than other elements */
+    top: 0;
+    /* left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0); */
+  }
+
 
 
 /* Update your CSS for the grid items */
