@@ -1,8 +1,19 @@
-# React + Vite
+# Live Site : https://photogallery-by-mdgalibhossain.netlify.app/
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Technical Problems I faced
+1. I am working on Drag and Drop project first time so I needed to work with documentations & online help.
 
-Currently, two official plugins are available:
+2. I couldn't find the idea that how i can change the index depending drag and drop operation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+3. I tried different methods & libararies for the drag and Drop animations but failed to solve
+
+4. Then I decided to work with dnd kit.I thought it will work because I watched tutorial on it.
+
+5. For design work I connected tailwindcss but then i noticed some classes  didn't worked properly then I took help from Stack OverFlow and fix the issue with postcss.config.js file
+
+6. The biggest problem I faced in this project which took my most effort is
+The main_img_container from SingleImage component wasn't working properly. My input checkbox wasn't firing on click. Then i breakdown the bug with consoling every step. I found that {...listeners} was the reason that my function not working. Then I bring the {...Listeners} from parent div to a seperate div and change my css then everything worked. 
+
+# Optional Text
+In this project I took a lot of help from Chatgpt , Youtube tutorials & Stack OverFlow. 
+
